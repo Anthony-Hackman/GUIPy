@@ -38,11 +38,8 @@ def select_script():
     if file_path:
         selected_file_path = file_path
         selected_file.set(selected_file_path)
-        hide_widgets(select_button, file_entry)
-        show_widgets(run_button, frequency_label, frequency_slider)  # Show the run button and frequency-related widgets
-        stop_button.pack_forget()  # Hide the stop button
-        start_button.pack()  # Show the start button
 
+# Function to run the script
 def run_script():
     global loop_iteration, loop_running, loop_frequency
     loop_iteration = 0
@@ -71,22 +68,41 @@ def run_script():
         else:
             break
 
-def start_periodic_execution():
-    global loop_running
-    if not loop_running:
-        loop_running = True
-        execution_thread = threading.Thread(target=run_script)
-        execution_thread.daemon = True
-        execution_thread.start()
-        start_button.pack_forget()  # Hide the start button
-        stop_button.pack()  # Show the stop button
-
-def stop_periodic_execution():
+# Function to start or stop the script execution
+def toggle_execution():
     global loop_running
     if loop_running:
         loop_running = False
-        show_widgets(select_button, file_entry, run_button)  # Show the select and run buttons
-        hide_widgets(stop_button, frequency_label, frequency_slider)  # Hide the stop button and frequency-related widgets
+        control_button.config(text="Start")
+    else:
+        loop_running = True
+        control_button.config(text="Stop")
+        execution_thread = threading.Thread(target=run_script)
+        execution_thread.daemon = True
+        execution_thread.start()
+
+# Function to execute the script once
+def execute_once():
+    global loop_iteration
+    loop_iteration = 0  # Reset loop iteration count
+    if selected_file_path:
+        try:
+            process = subprocess.Popen(
+                ["python", selected_file_path],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                bufsize=1,
+                universal_newlines=True,
+            )
+
+            # Read and display the output line by line
+            for line in process.stdout:
+                update_text_widget(line)
+            for line in process.stderr:
+                update_text_widget(line)
+        except Exception as e:
+            update_text_widget(f"An error occurred: {str(e)}\n")
 
 # Function to hide a list of widgets
 def hide_widgets(*widgets):
@@ -99,13 +115,18 @@ def show_widgets(*widgets):
         widget.pack()
 
 # Function to handle changes in loop frequency
-def on_frequency_change(value):
+def on_frequency_change():
     global loop_frequency
-    loop_frequency = float(value)
+    frequency_str = frequency_input.get()
+    try:
+        loop_frequency = float(frequency_str)
+        frequency_input_echo.config(text=f"Current Frequency (seconds): {loop_frequency}")
+    except ValueError:
+        pass  # Handle invalid input gracefully
 
 # Create the main application window
 app = tk.Tk()
-app.title("Hack's GUI Py")
+app.title("Script Runner")
 
 # Create a frame for the text widget and scrollbar
 output_frame = tk.Frame(app)
@@ -125,35 +146,38 @@ output_frame.grid_columnconfigure(0, weight=1)
 # Organize the layout using grid
 output_frame.pack()
 
-# Create a slider to adjust the loop frequency
-frequency_label = tk.Label(app, text="Loop Frequency (seconds):", font=("Helvetica", 12, "bold"))
-frequency_label.pack()
-frequency_slider = tk.Scale(app, from_=0.1, to=5.0, resolution=0.1, orient="horizontal", length=300, command=on_frequency_change)
-frequency_slider.set(loop_frequency)
-frequency_slider.pack()
-
 # Create a button to select a Python script
-select_button = tk.Button(app, text="Select Python Script", command=select_script, font=("Helvetica", 12, "bold"))
-select_button.pack()
+select_button = tk.Button(app, text="Select Python Script", command=select_script, font=("Helvetica", 12))
+select_button.pack(pady=10)
 
-# Create an entry widget to display the selected file path (hidden by default)
+# Create an entry widget to display the selected file path
 selected_file = tk.StringVar()
-file_entry = tk.Entry(app, textvariable=selected_file, width=60, font=("Helvetica", 12, "bold"))
+file_entry = tk.Entry(app, textvariable=selected_file, width=60, font=("Helvetica", 12))
 file_entry.pack()
 
-# Create a "Run Script" button
-run_button = tk.Button(app, text="Run Script", command=start_periodic_execution, font=("Helvetica", 12, "bold"))
-run_button.pack()
+# Create "Run Once" and "Start Script" buttons side by side
+button_frame = tk.Frame(app)
+run_once_button = tk.Button(button_frame, text="Run Once", command=execute_once, font=("Helvetica", 12))
+run_once_button.pack(side=tk.LEFT, padx=5)
+control_button = tk.Button(button_frame, text="Start", command=toggle_execution, font=("Helvetica", 12))
+control_button.pack(side=tk.LEFT, padx=5)
+button_frame.pack()
 
-# "Stop Script" button (hidden by default)
-stop_button = tk.Button(app, text="Stop Script", command=stop_periodic_execution, font=("Helvetica", 12, "bold"))
-stop_button.pack()
-stop_button.pack_forget()
+# Create a label for loop frequency
+frequency_label = tk.Label(app, text="Loop Frequency (seconds):", font=("Helvetica", 12))
+frequency_label.pack()
 
-# "Start Script" button (hidden by default)
-start_button = tk.Button(app, text="Start Script", command=start_periodic_execution, font=("Helvetica", 12, "bold"))
-start_button.pack()
-start_button.pack_forget()
+# Create an input field for loop frequency
+frequency_input = tk.Entry(app, font=("Helvetica", 12))
+frequency_input.pack()
+
+# Create a label to echo the input frequency
+frequency_input_echo = tk.Label(app, text="", font=("Helvetica", 12))
+frequency_input_echo.pack()
+
+# Create a button to apply loop frequency
+apply_frequency_button = tk.Button(app, text="Apply Frequency", command=on_frequency_change, font=("Helvetica", 12))
+apply_frequency_button.pack()
 
 # Calculate the minimum size required based on content
 app.update_idletasks()
