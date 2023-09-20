@@ -1,5 +1,5 @@
 ## GUIPy
-#Program that loads, runs, with optional loops compatible with .py files. 
+# Program that loads, runs, with optional loops compatible with .py files. 
 Customizable runtime intervals based on seconds/minutes. Options to unload and reload .py files.
 
 
