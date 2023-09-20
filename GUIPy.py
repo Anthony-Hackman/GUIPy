@@ -181,8 +181,8 @@ apply_frequency_button.pack()
 
 # Calculate the minimum size required based on content
 app.update_idletasks()
-min_width = app.winfo_reqwidth()
-min_height = app.winfo_reqheight()
+min_width = app.winfo_reqwidth() + 50
+min_height = app.winfo_reqheight() + 50
 app.minsize(min_width, min_height)
 
 app.mainloop()
