@@ -131,7 +131,7 @@ app.title("Hack's GUI Py")
 # Create a frame for the text widget and scrollbar
 output_frame = tk.Frame(app)
 scrollbar = tk.Scrollbar(output_frame, orient=tk.VERTICAL)
-output_text = tk.Text(output_frame, wrap=tk.WORD, height=20, width=80, yscrollcommand=scrollbar.set, font=("Helvetica", 12))
+output_text = tk.Text(output_frame, wrap=tk.WORD, height=30, width=50, yscrollcommand=scrollbar.set, font=("Helvetica", 12))
 output_text.config(state=tk.DISABLED)  # Make the text widget read-only
 scrollbar.config(command=output_text.yview)
 
