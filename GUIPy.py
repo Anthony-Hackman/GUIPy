@@ -126,7 +126,7 @@ def on_frequency_change():
 
 # Create the main application window
 app = tk.Tk()
-app.title("Script Runner")
+app.title("Hack's GUI Py")
 
 # Create a frame for the text widget and scrollbar
 output_frame = tk.Frame(app)
