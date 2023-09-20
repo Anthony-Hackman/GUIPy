@@ -120,7 +120,7 @@ app.title("Hack's GUI Py")
 style = ttk.Style()
 
 def style_button(button):
-    button.config(font=("Helvetica", 12, "bold"), fg="white", bg="#365d7a", padx=0, pady=0)
+    button.config(font=("Helvetica", 10, "bold"), fg="white", bg="#365d7a", padx=0, pady=0)
 
 # frame for the text widget and scrollbar
 output_frame = tk.Frame(app)
@@ -143,25 +143,25 @@ select_button.pack(pady=10)
 
 # Create an entry widget to display the selected file path
 selected_file = tk.StringVar()
-file_entry = tk.Entry(app, textvariable=selected_file, width=60, font=("Helvetica", 12))
+file_entry = tk.Entry(app, textvariable=selected_file, width=60, font=("Helvetica", 10))
 file_entry.pack()
 
 # Create "Run Once" and "Start Script" buttons side by side
 button_frame = tk.Frame(app)
 run_once_button = tk.Button(button_frame, text="Run Once", command=execute_once)
 style_button(run_once_button)  # Apply the custom style
-run_once_button.pack(side=tk.LEFT, padx=5)
+run_once_button.pack(side=tk.LEFT, padx=10, pady=7)
 control_button = tk.Button(button_frame, text="Start", command=toggle_execution)
 style_button(control_button)  # Apply the custom style
-control_button.pack(side=tk.LEFT, padx=5)
+control_button.pack(side=tk.LEFT, padx=10, pady=7)
 button_frame.pack()
 
 # Create a label to display the current frequency
-frequency_label = tk.Label(app, text=f"Current Frequency (seconds): {loop_frequency}", font=("Helvetica", 12))
+frequency_label = tk.Label(app, text=f"Current Frequency (seconds): {loop_frequency}", font=("Helvetica", 10))
 frequency_label.pack()
 
 # Create an input field for loop frequency
-frequency_input = tk.Entry(app, font=("Helvetica", 12))
+frequency_input = tk.Entry(app, font=("Helvetica", 10))
 frequency_input.pack()
 
 # Create a button to apply loop frequency
@@ -171,7 +171,7 @@ apply_frequency_button.pack(pady=5)  # Use pack() for consistency
 
 
 # Create a label to echo the input frequency
-frequency_input_echo = tk.Label(app, text="", font=("Helvetica", 12))
+frequency_input_echo = tk.Label(app, text="", font=("Helvetica", 10))
 frequency_input_echo.pack()
 
 # Calculate the minimum app window size
