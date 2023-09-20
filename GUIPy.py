@@ -119,14 +119,8 @@ app.title("Hack's GUI Py")
 # Create a style object
 style = ttk.Style()
 
-# Configure the style for all buttons
-style.configure(
-    "TButton",  # Style name for all buttons
-    font=("Helvetica", 12),
-    foreground="white",
-    background="blue",
-    padding=10,
-)
+def style_button(button):
+    button.config(font=("Helvetica", 12, "bold"), fg="white", bg="#365d7a", padx=0, pady=0)
 
 # frame for the text widget and scrollbar
 output_frame = tk.Frame(app)
@@ -143,7 +137,8 @@ output_text.pack(expand=True, fill=tk.BOTH)
 output_frame.pack(expand=True, fill=tk.BOTH)
 
 # Create a button to select a Python script
-select_button = tk.Button(app, text="Select Python Script", command=select_script, font=("Helvetica", 12))
+select_button = tk.Button(app, text="Select Python Script", command=select_script)
+style_button(select_button)  # Apply the custom style
 select_button.pack(pady=10)
 
 # Create an entry widget to display the selected file path
@@ -153,9 +148,11 @@ file_entry.pack()
 
 # Create "Run Once" and "Start Script" buttons side by side
 button_frame = tk.Frame(app)
-run_once_button = tk.Button(button_frame, text="Run Once", command=execute_once, font=("Helvetica", 12))
+run_once_button = tk.Button(button_frame, text="Run Once", command=execute_once)
+style_button(run_once_button)  # Apply the custom style
 run_once_button.pack(side=tk.LEFT, padx=5)
-control_button = tk.Button(button_frame, text="Start", command=toggle_execution, font=("Helvetica", 12))
+control_button = tk.Button(button_frame, text="Start", command=toggle_execution)
+style_button(control_button)  # Apply the custom style
 control_button.pack(side=tk.LEFT, padx=5)
 button_frame.pack()
 
@@ -167,18 +164,20 @@ frequency_label.pack()
 frequency_input = tk.Entry(app, font=("Helvetica", 12))
 frequency_input.pack()
 
+# Create a button to apply loop frequency
+apply_frequency_button = tk.Button(app, text="Apply Frequency", command=on_frequency_change)
+style_button(apply_frequency_button)  # Apply the custom style
+apply_frequency_button.pack(pady=5)  # Use pack() for consistency
+
+
 # Create a label to echo the input frequency
 frequency_input_echo = tk.Label(app, text="", font=("Helvetica", 12))
 frequency_input_echo.pack()
 
-# Create a button to apply loop frequency
-apply_frequency_button = tk.Button(app, text="Apply Frequency", command=on_frequency_change, font=("Helvetica", 12))
-apply_frequency_button.pack(pady=5)  # Use pack() for consistency
-
-# Calculate the minimum size required based on content
+# Calculate the minimum app window size
 app.update_idletasks()
-min_width = app.winfo_reqwidth() + 25
-min_height = app.winfo_reqheight() + 50
+min_width = app.winfo_reqwidth() + 15
+min_height = app.winfo_reqheight() + 35
 app.minsize(min_width, min_height)
 
 app.mainloop()
