@@ -1,5 +1,5 @@
 # GUIPy
-## Program to load, run, to include loop .py files.
+## GUI to load, run, or loop .py files.
 ![gp](https://github.com/Anthony-Hackman/GUIPy/assets/143662667/76206bb0-fdaf-48f1-9cfe-764bda14d402)
 
 Customizable runtime intervals based on user chosen seconds (down to .01).
