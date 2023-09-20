@@ -12,6 +12,8 @@ Built in output window displaying information on:
   - time
   - date
   - program output
+
+
 ![image](https://github.com/Anthony-Hackman/GUIPy/assets/143662667/30e169a1-a485-4ffe-8ee9-dd00e648ba9a)
 
 
