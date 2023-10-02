@@ -2,7 +2,7 @@
 
 # GUIPy
 
-> Customizable runtime intervals based on user chosen seconds (down to .01). Options to unload and reload .py files.
+> Graphic User Interface (GUI) for .py scripts.
 
 ## Table of Contents
 
