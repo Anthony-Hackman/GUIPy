@@ -40,6 +40,6 @@ Run with VS Code or compile. Executable is provided in the event you are unable 
 Python 3.11 or later. Windows x64
 
 ```bash
-$ git clone https://github.com/yourusername/your-project.git
-$ cd your-project
+$ git clone https://github.com/Anthony-Hackman/GUIPy.git
+$ cd GUIPy
 $ npm install
